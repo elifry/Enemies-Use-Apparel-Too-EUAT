@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Patch>
+    <!-- Needs Ideology -->
+    <!-- Lets the ai use Berserk Trance-->
+    <Operation Class="EnemiesUseApparelToo.EUAT_PatchInIdeologyAbilities">
+        <operations>
+        <li Class="PatchOperationAdd">
+            <xpath>Defs/AbilityDef[defName="BerserkTrance"]</xpath>
+            <value>
+                <aiCanUse>true</aiCanUse>
+                <ai_IsOffensive>true</ai_IsOffensive>
+            </value>
+        </li>
+        <li Class="PatchOperationConditional">
+            <xpath>Defs/PawnKindDef[defName="Tribal_Berserker"]/techHediffsTags</xpath>
+            <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/PawnKindDef[defName="Tribal_Berserker"]</xpath>
+                <value>
+                    <techHediffsTags />
+                </value>
+            </nomatch>
+        </li>    
+        <li Class="PatchOperationAdd">
+            <xpath>Defs/PawnKindDef[defName="Tribal_Berserker"]/techHediffsTags</xpath>
+            <value>
+                <li>EUAT_BerserkHedDiff</li>
+            </value>
+        </li>
+        <li Class="PatchOperationAdd">
+            <xpath>Defs/PawnKindDef[defName="Tribal_Berserker"]</xpath>
+            <value>
+                <techHediffsChance>0.35</techHediffsChance>
+            </value>
+        </li>
+        <li Class="PatchOperationConditional">
+            <xpath>Defs/PawnKindDef[defName="Tribal_Berserker"]/techHediffsMoney</xpath>
+            <nomatch Class="PatchOperationAdd">
+            <xpath>Defs/PawnKindDef[defName="Tribal_Berserker"]</xpath>
+                <value>
+                    <techHediffsMoney>100~200</techHediffsMoney>
+                </value>
+            </nomatch>
+        </li>  
+        </operations>
+    </Operation>  
+        <!-- Lets the ai use Combat Command-->
+    <Operation Class="EnemiesUseApparelToo.EUAT_PatchInIdeologyAbilities">
+        <operations>
+        <li Class="PatchOperationAdd">
+            <xpath>Defs/AbilityDef[defName="CombatCommand"]</xpath>
+            <value>
+                <aiCanUse>true</aiCanUse>
+                <ai_IsOffensive>true</ai_IsOffensive>
+            </value>
+        </li>
+        </operations>
+    </Operation>  
+
+
+
+</Patch>

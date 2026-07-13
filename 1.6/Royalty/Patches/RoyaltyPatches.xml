@@ -147,7 +147,7 @@
                 </alternateTagChoices>
             </li>
         </value>
-    </Operation>
+    </Operation>  
     <!-- Add Jet Jump Ability to Jump Packs-->
     <Operation Class="PatchOperationConditional">
         <xpath>Defs/ThingDef[defName="Apparel_PackJump"]/apparel/abilities</xpath>

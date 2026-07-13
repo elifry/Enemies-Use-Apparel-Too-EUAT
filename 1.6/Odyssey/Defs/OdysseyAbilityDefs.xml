@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <AbilityDef>
+    <defName>EUAT_DeployHunterDrone</defName>
+    <label>deploy hunter drone</label>
+    <description>Deploy a turret at the target location. Consumed on use.</description>
+    <iconPath>Things/Projectile/Projectile_HunterDrone</iconPath>
+    <aiCanUse>true</aiCanUse>
+    <displayOrder>300</displayOrder>
+    <showWhenDrafted>false</showWhenDrafted>
+    <!--<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>-->
+    <verbProperties>
+        <verbClass>Verb_CastAbility</verbClass>
+        <range>20.9</range>
+        <warmupTime>1.0</warmupTime>
+        <soundCast>ThrowGrenade</soundCast>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <targetParams>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>  
+    </verbProperties>
+    <comps>
+      <li Class="EnemiesUseApparelToo.CompProperties_AbilityChargesApparel">
+        </li>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>Grenade_HunterPack</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+
+</Defs>    

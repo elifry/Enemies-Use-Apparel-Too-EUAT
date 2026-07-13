@@ -2,9 +2,44 @@
 <Defs>
 
   <AbilityDef>
-    <defName>EUAT_PsychicShockLance</defName>
+    <defName>EUAT_DeployTurret</defName>
+    <label>deploy turret</label>
+    <description>Deploy a turret at the target location. Consumed on use.</description>
+    <iconPath>Things/Pawn/Humanlike/Apparel/TurretPack/TurretPack</iconPath>
+    <aiCanUse>true</aiCanUse>
+    <displayOrder>300</displayOrder>
+    <showWhenDrafted>false</showWhenDrafted>
+    <!--<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>-->
+    <hotKey>Misc4</hotKey>
+    <verbProperties>
+        <verbClass>Verb_CastAbility</verbClass>
+        <range>22.9</range>
+        <warmupTime>1.0</warmupTime>
+        <soundCast>ThrowGrenade</soundCast>
+        <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+        <targetParams>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>  
+    </verbProperties>
+    <comps>
+      <li Class="EnemiesUseApparelToo.CompProperties_AbilityChargesApparel">
+        </li>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>Grenade_TurretPack</projectileDef>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef>
+    <defName>EUAT_ShardShockLance</defName>
     <label>psychic shock lance</label>
     <description>A limited-use psychic effector. It shocks the target's mind with chaotic images, blocking coherent perception and dropping them into a state of psychic shock. There is a risk of brain damage.\n\nThis shock lance was crafted from a broken shard of dark archotechnology. It has a shorter range than its non-shard based counterpart and it requires line of sight.</description>
+    <!--Placeholder Icon since the plan is just to display the verb-->
+    <iconPath>UI/Abilities/Stun</iconPath>
     <showWhenDrafted>false</showWhenDrafted>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
     <aiCanUse>true</aiCanUse>
@@ -14,8 +49,8 @@
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <drawAimPie>False</drawAimPie>
-      <range>41.9</range>
-      <warmupTime>2.2</warmupTime>
+      <range>16.9</range>
+      <warmupTime>2.4</warmupTime>
       <targetParams>
         <canTargetBuildings>false</canTargetBuildings>
         <neverTargetIncapacitated>true</neverTargetIncapacitated>
@@ -46,9 +81,11 @@
   </AbilityDef>
 
    <AbilityDef>
-    <defName>EUAT_PsychicInsanityLance</defName>
+    <defName>EUAT_ShardInsanityLance</defName>
     <label>psychic insanity lance</label>
     <description>A limited-use psychic effector. It shocks the target's mind with chaotic images, blocking coherent perception and dropping them into a state of psychic shock. There is a risk of brain damage.\n\nThis shock lance was crafted from a broken shard of dark archotechnology. It has a shorter range than its non-shard based counterpart and it requires line of sight.</description>
+    <!--Placeholder Icon since the plan is just to display the verb-->
+    <iconPath>UI/Abilities/Stun</iconPath>
     <showWhenDrafted>false</showWhenDrafted>
     <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
     <aiCanUse>true</aiCanUse>
@@ -58,8 +95,8 @@
     <verbProperties>
       <verbClass>Verb_CastAbility</verbClass>
       <drawAimPie>False</drawAimPie>
-      <range>41.9</range>
-      <warmupTime>2.2</warmupTime>
+      <range>16.9</range>
+      <warmupTime>2.4</warmupTime>
       <targetParams>
         <canTargetBuildings>false</canTargetBuildings>
         <neverTargetIncapacitated>true</neverTargetIncapacitated>
@@ -87,6 +124,48 @@
       <li Class="CompProperties_AbilityConnectingFleckLine">
         <fleckDef>PsycastPsychicLine</fleckDef>
       </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef>
+    <defName>EUAT_LaunchDeadlifeCapsule</defName>
+    <label>launch deadlife capsule</label>
+    <description>Launch a Deadlife Capsule. Destroyed on use.</description>
+    <iconPath>UI/Abilities/ReleaseDeadlifeDust</iconPath>
+    <aiCanUse>true</aiCanUse>
+    <showWhenDrafted>false</showWhenDrafted>
+    <!--<ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
+    <statBases>
+        <Ability_EffectRadius>23.9</Ability_EffectRadius>
+    </statBases>-->
+    <!--<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>-->
+    <statBases>
+        <Ability_Duration>20</Ability_Duration>
+    </statBases>
+    <verbProperties>
+        <verbClass>Verb_CastAbility</verbClass>
+        <range>23.9</range>
+        <warmupTime>1.5</warmupTime>
+        <forcedMissRadius>0.1</forcedMissRadius>
+        <soundCast>ThrowGrenade</soundCast>
+        <targetParams>
+            <canTargetPawns>false</canTargetPawns>
+            <canTargetCorpses>true</canTargetCorpses>
+            <canTargetBuildings>false</canTargetBuildings>
+            <canTargetLocations>true</canTargetLocations>
+        </targetParams>
+        <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+    </verbProperties>
+    <comps>
+    <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>Grenade_Deadlife</projectileDef>
+    </li>
+    <li Class = "EnemiesUseApparelToo.CompProperties_AbilityEffectMarkDeadlifeGasAtDest">
+        <cellsToFill>21</cellsToFill><!-- must match the number form the deadlife grenade-->
+    </li>
+    <li Class="EnemiesUseApparelToo.CompProperties_AbilityChargesApparel">
+    </li>
     </comps>
   </AbilityDef>
 

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+    <AbilityDef>
+        <defName>EUAT_LaunchFragGrenadeApparel</defName>
+        <label>launch frag grenade</label>
+        <description>Launch a grenade. Can be reloaded using steel.</description>
+        <iconPath>UI/Commands/LaunchFragGrenade</iconPath>
+        <aiCanUse>true</aiCanUse>
+        <showWhenDrafted>false</showWhenDrafted>
+        <!--<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+        <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>-->
+        <verbProperties>
+          <verbClass>Verb_CastAbility</verbClass>
+          <range>12.9</range>
+          <warmupTime>1.5</warmupTime>
+          <soundCast>Shot_IncendiaryLauncher</soundCast>
+          <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
+          <targetParams>
+              <canTargetLocations>true</canTargetLocations>
+          </targetParams>
+          <rangedFireRulepack>Combat_RangedFire_Thrown</rangedFireRulepack>
+        </verbProperties>
+        <comps>
+        <li Class="CompProperties_AbilityLaunchProjectile">
+            <projectileDef>Proj_GrenadeFrag</projectileDef>
+        </li>
+        <li Class="EnemiesUseApparelToo.CompProperties_AbilityChargesApparel">
+        </li>
+        </comps>
+    </AbilityDef>
+
+  <AbilityDef>
+    <defName>EUAT_LaunchIncendiaryPheonixArmor</defName>
+    <label>launch incendiary shell</label>
+    <description>Launch a shell that creates an explosion on impact, igniting everything nearby. Can be reloaded using chemfuel.</description>
+    <iconPath>UI/Commands/LaunchIncendiaryShell</iconPath>
+    <aiCanUse>true</aiCanUse>
+    <ai_IsIncendiary>true</ai_IsIncendiary>
+    <showWhenDrafted>false</showWhenDrafted>
+    <!--<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>-->
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <range>14.9</range>
+      <warmupTime>1.5</warmupTime>
+      <forcedMissRadius>1.9</forcedMissRadius>
+      <soundCast>Shot_IncendiaryLauncher</soundCast>
+      <soundCastTail>GunTail_Medium</soundCastTail>
+      <targetParams>
+        <canTargetLocations>true</canTargetLocations>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityLaunchProjectile">
+        <projectileDef>Proj_GrenadePhoenixFire</projectileDef>
+      </li>
+      <li Class="EnemiesUseApparelToo.CompProperties_AbilityChargesApparel">
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <AbilityDef Name="JetJump">
+    <defName>EUAT_JetJump</defName>
+    <label>jet jump</label>
+    <description>Launch into the air with integrated jetpack. Can be reloaded using chemical fuel.</description>
+    <iconPath>Things/Pawn/Humanlike/Apparel/JumpPack/JumpPack</iconPath>
+    <hostile>false</hostile>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <showWhenDrafted>false</showWhenDrafted>
+    <!--<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>-->
+    <verbProperties>
+        <verbClass>EnemiesUseApparelToo.Verb_CastAbilityJumpApparel</verbClass>
+        <label>jump</label>
+        <violent>false</violent>
+        <forceNormalTimeSpeed>false</forceNormalTimeSpeed>
+        <warmupTime>0.5</warmupTime>
+        <warmupEffecter>JumpWarmupEffect</warmupEffecter>
+        <requireLineOfSight>true</requireLineOfSight>
+        <flightEffecterDef>JumpFlightEffect</flightEffecterDef>
+        <soundLanding>JumpPackLand</soundLanding>
+        <drawAimPie>true</drawAimPie>      
+        <targetParams>
+          <canTargetLocations>true</canTargetLocations>
+          <canTargetPawns>false</canTargetPawns>
+          <canTargetBuildings>false</canTargetBuildings>
+        </targetParams>
+    </verbProperties>
+    <jobDef>CastJump</jobDef>
+    <comps>
+    <li Class="EnemiesUseApparelToo.CompProperties_AbilityChargesApparel">
+    </li>
+    </comps>
+  </AbilityDef>
+
+</Defs>    

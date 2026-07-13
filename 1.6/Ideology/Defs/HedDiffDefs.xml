@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+  <ThingDef Name="EAUT_IdeologyTechHeadiffBase" ParentName="BodyPartBase" Abstract="True">
+    <techHediffsTags>
+      <li>EUAT_ImplantIdeologyAbility</li>
+    </techHediffsTags>
+  </ThingDef>
+  
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>EUAT_BerserkTrance</defName>
+    <label>berserk trance</label>
+    <labelNoun>a berserk trance</labelNoun>
+    <description>This Pawn can fill themselves with anger over ideological grievances. This strengthens the body past normal limits, but also means losing control and attacking every enemy nearby in an unstoppable rage. The berserk state will last for 3 hours.</description>
+    <descriptionHyperlinks><ThingDef>EUAT_BerserkTrance</ThingDef></descriptionHyperlinks>
+    <abilities>
+      <li>EUAT_BerserkTrance</li>
+    </abilities>
+    <comps>
+      <li Class="EnemiesUseApparelToo.HediffCompProperties_RemovedOnDowned"/>
+    </comps>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartBionicBase">
+    <defName>EUAT_BerserkTrance</defName>
+    <label>EUAT BerserkTrance</label>
+    <description>This Pawn can fill themselves with anger over ideological grievances. This strengthens the body past normal limits, but also means losing control and attacking every enemy nearby in an unstoppable rage. The berserk state will last for 3 hours.</description>
+    <descriptionHyperlinks>
+      <RecipeDef>EUAT_InstallBerserkTrance</RecipeDef>
+    </descriptionHyperlinks>
+    <destroyOnDrop>true</destroyOnDrop>
+    <tradeability>None</tradeability>
+    <costList>
+      <Plasteel>1</Plasteel>
+    </costList>
+    <techHediffsTags>
+      <li>EUAT_BerserkHedDiff</li>
+    </techHediffsTags>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>EUAT_InstallBerserkTrance</defName>
+    <label>install EUAT_BerserkTrance</label>
+    <description>Install a EUAT_BerserkTrance.</description>
+    <descriptionHyperlinks>
+      <ThingDef>EUAT_BerserkTrance</ThingDef>
+      <HediffDef>EUAT_BerserkTrance</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing EUAT_BerserkTrance.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>EUAT_BerserkTrance</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>EUAT_BerserkTrance</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Brain</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>EUAT_BerserkTrance</addsHediff>
+  </RecipeDef>
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>EUAT_CombatCommand</defName>
+    <label>combat command</label>
+    <labelNoun>a berserk trance</labelNoun>
+    <description>Create an aura that boosts the combat skills of everyone nearby. The effect lasts 24 hours and remains attached to the leader for the duration.</description>
+    <descriptionHyperlinks><ThingDef>EUAT_CombatCommand</ThingDef></descriptionHyperlinks>
+    <abilities>
+      <li>EUAT_CombatCommand</li>
+    </abilities>
+    <comps>
+      <li Class="EnemiesUseApparelToo.HediffCompProperties_RemovedOnDowned"/>
+    </comps>
+  </HediffDef>
+
+  <AbilityDef>
+    <defName>EUAT_CombatCommand</defName>
+    <label>combat command</label>
+    <description>Create an aura that boosts the combat skills of everyone nearby. The effect lasts 24 hours and remains attached to the leader for the duration.</description>
+    <jobDef>CastAbilityOnThing</jobDef>
+    <targetRequired>False</targetRequired>
+    <canUseAoeToGetTargets>False</canUseAoeToGetTargets>
+    <iconPath>UI/Abilities/CombatCommand</iconPath>
+    <warmupMoteSocialSymbol>UI/Abilities/CombatCommand</warmupMoteSocialSymbol>
+    <stunTargetWhileCasting>True</stunTargetWhileCasting>
+    <showPsycastEffects>False</showPsycastEffects>
+    <displayGizmoWhileUndrafted>True</displayGizmoWhileUndrafted>
+    <disableGizmoWhileUndrafted>False</disableGizmoWhileUndrafted>
+    <groupDef>Leader</groupDef>
+    <hotKey>Misc12</hotKey>
+    <uiOrder>3</uiOrder>
+    <warmupStartSound>CombatCommand_Warmup</warmupStartSound>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <statBases>
+      <Ability_Duration>1000</Ability_Duration>
+      <Ability_EffectRadius>9.9</Ability_EffectRadius>
+    </statBases>
+    <aiCanUse>true</aiCanUse>
+    <ai_IsOffensive>true</ai_IsOffensive>
+    <verbProperties>
+      <verbClass>Verb_CastAbility</verbClass>
+      <warmupTime>0.5</warmupTime>
+      <range>9.9</range>
+      <drawAimPie>False</drawAimPie>
+      <requireLineOfSight>False</requireLineOfSight>
+      <targetParams>
+        <canTargetSelf>true</canTargetSelf>
+        <canTargetPawns>false</canTargetPawns>
+        <canTargetBuildings>false</canTargetBuildings>
+        <canTargetAnimals>false</canTargetAnimals>
+        <canTargetHumans>false</canTargetHumans>
+        <canTargetMechs>false</canTargetMechs>
+      </targetParams>
+    </verbProperties>
+    <comps>
+      <li Class="CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>EUAT_CombatCommandAura</hediffDef>
+        <onlyBrain>True</onlyBrain>
+        <onlyApplyToSelf>True</onlyApplyToSelf>
+        <replaceExisting>true</replaceExisting>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <HediffDef ParentName="RoleStatBuff">
+    <defName>EUAT_CombatCommandAura</defName>
+    <label>combat command</label>
+    <description>By encouraging and commanding nearby allies, this person can enhance their focus in combat and thus their battle performance.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <showRemainingTime>True</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+      <li Class="HediffCompProperties_GiveHediffsInRange">
+        <range>9.9</range>
+        <mote>Mote_CombatCommand</mote>
+        <hideMoteWhenNotDrafted>true</hideMoteWhenNotDrafted>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <neverTargetHostileFaction>true</neverTargetHostileFaction>
+        </targetingParameters>
+        <hediff>CombatCommandBuff</hediff>
+      </li>
+    </comps>
+    <isBad>false</isBad>
+  </HediffDef>
+
+  <ThingDef ParentName="BodyPartBionicBase">
+    <defName>EUAT_CombatCommand</defName>
+    <label>EUAT Combat Command</label>
+    <description>By encouraging and commanding nearby allies, this person can enhance their focus in combat and thus their battle performance.</description>
+    <descriptionHyperlinks>
+      <RecipeDef>EUAT_InstallCombatCommand</RecipeDef>
+    </descriptionHyperlinks>
+    <destroyOnDrop>true</destroyOnDrop>
+    <tradeability>None</tradeability>
+    <costList>
+      <Plasteel>1</Plasteel>
+    </costList>
+    <techHediffsTags>
+      <li>EUAT_CommandHedDiff</li>
+    </techHediffsTags>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>EUAT_InstallCombatCommand</defName>
+    <label>install EUAT_CombatCommand</label>
+    <description>Install a EUAT_CombatCommand.</description>
+    <descriptionHyperlinks>
+      <ThingDef>EUAT_CombatCommand</ThingDef>
+      <HediffDef>EUAT_CombatCommand</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing EUAT_CombatCommand.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>EUAT_CombatCommand</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>EUAT_CombatCommand</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Brain</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>EUAT_CombatCommand</addsHediff>
+  </RecipeDef>
+
+  <HediffDef ParentName="ImplantHediffBase">
+    <defName>EUAT_MarksmanCommand</defName>
+    <label>marksman command</label>
+    <labelNoun>a marksman command</labelNoun>
+    <description>Call out shots and boost the shooting skills of everyone nearby. The effect remains attached to the caster for 24 hours.</description>
+    <descriptionHyperlinks><ThingDef>EUAT_MarksmanCommand</ThingDef></descriptionHyperlinks>
+    <abilities>
+      <li>EUAT_MarksmanCommand</li>
+    </abilities>
+    <comps>
+      <li Class="EnemiesUseApparelToo.HediffCompProperties_RemovedOnDowned"/>
+    </comps>
+  </HediffDef>
+
+  <HediffDef ParentName="RoleStatBuff">
+    <defName>EUAT_MarksmanCommandAura</defName>
+    <label>marksman command</label>
+    <description>This person is using a special ability to call out shots. Everyone within an effect radius gains shooting bonuses.</description>
+    <hediffClass>HediffWithComps</hediffClass>
+    <comps>
+      <li Class="HediffCompProperties_Disappears">
+        <showRemainingTime>True</showRemainingTime>
+      </li>
+      <li Class="HediffCompProperties_DisappearsOnDeath"/>
+      <li Class="HediffCompProperties_GiveHediffsInRange">
+        <range>9.9</range>
+        <mote>Mote_CombatCommand</mote>
+        <hideMoteWhenNotDrafted>true</hideMoteWhenNotDrafted>
+        <targetingParameters>
+          <canTargetBuildings>false</canTargetBuildings>
+          <canTargetAnimals>false</canTargetAnimals>
+          <canTargetMechs>false</canTargetMechs>
+          <neverTargetHostileFaction>true</neverTargetHostileFaction>
+        </targetingParameters>
+        <hediff>MarksmanCommandBuff</hediff>
+      </li>
+    </comps>
+    <isBad>false</isBad>
+  </HediffDef>
+
+  <AbilityDef ParentName="RoleAuraBuffBase">
+    <defName>EUAT_MarksmanCommand</defName>
+    <label>marksman command</label>
+    <description>Call out shots and boost the shooting skills of everyone nearby. The effect remains attached to the caster for 24 hours.</description>
+    <iconPath>UI/Abilities/MarksmanCommand</iconPath>
+    <warmupMoteSocialSymbol>UI/Abilities/MarksmanCommand</warmupMoteSocialSymbol>
+    <casterMustBeCapableOfViolence>false</casterMustBeCapableOfViolence>
+    <aiCanUse>true</aiCanUse>
+    <ai_IsOffensive>true</ai_IsOffensive>
+    <comps>
+      <li Class="CompProperties_AbilityGiveHediff">
+        <compClass>CompAbilityEffect_GiveHediff</compClass>
+        <hediffDef>EUAT_MarksmanCommandAura</hediffDef>
+        <onlyBrain>True</onlyBrain>
+        <onlyApplyToSelf>True</onlyApplyToSelf>
+        <replaceExisting>true</replaceExisting>
+      </li>
+    </comps>
+  </AbilityDef>
+
+  <ThingDef ParentName="BodyPartBionicBase">
+    <defName>EUAT_MarksmanCommand</defName>
+    <label>EUAT Marksman Command</label>
+    <description>Call out shots and boost the shooting skills of everyone nearby. The effect remains attached to the caster for 24 hours.</description>
+    <descriptionHyperlinks>
+      <RecipeDef>EUAT_InstallMarksmanCommand</RecipeDef>
+    </descriptionHyperlinks>
+    <destroyOnDrop>true</destroyOnDrop>
+    <tradeability>None</tradeability>
+    <costList>
+      <Plasteel>1</Plasteel>
+    </costList>
+    <techHediffsTags>
+      <li>EUAT_MarksmanHedDiff</li>
+    </techHediffsTags>
+  </ThingDef>
+
+  <RecipeDef ParentName="SurgeryInstallImplantBase">
+    <defName>EUAT_InstallMarksmanCommand</defName>
+    <label>install EUAT_MarksmanCommand</label>
+    <description>Install a EUAT_MarksmanCommand.</description>
+    <descriptionHyperlinks>
+      <ThingDef>EUAT_MarksmanCommand</ThingDef>
+      <HediffDef>EUAT_MarksmanCommand</HediffDef>
+    </descriptionHyperlinks>
+    <jobString>Installing EUAT_MarksmanCommand.</jobString>
+    <ingredients>
+      <li>
+        <filter>
+          <thingDefs>
+            <li>EUAT_MarksmanCommand</li>
+          </thingDefs>
+        </filter>
+        <count>1</count>
+      </li>
+    </ingredients>
+    <fixedIngredientFilter>
+      <thingDefs>
+        <li>EUAT_MarksmanCommand</li>
+      </thingDefs>
+    </fixedIngredientFilter>
+    <appliedOnFixedBodyParts>
+      <li>Brain</li>
+    </appliedOnFixedBodyParts>
+    <addsHediff>EUAT_MarksmanCommand</addsHediff>
+  </RecipeDef>
+
+</Defs>

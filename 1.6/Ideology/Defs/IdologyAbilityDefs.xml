@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <AbilityDef>
+      <defName>EUAT_BerserkTrance</defName>
+      <label>berserk trance</label>
+      <description>The caster fills themself with anger over ideological grievances. This strengthens the body past normal limits, but also means losing control and attacking every enemy nearby in an unstoppable rage. The berserk state will last for 3 hours.</description>
+      <iconPath>UI/Abilities/BerserkTrance</iconPath><cooldownTicksRange>1800</cooldownTicksRange> <!-- 30 seconds -->
+      <warmupMoteSocialSymbol>UI/Abilities/BerserkTrance</warmupMoteSocialSymbol>
+      <hostile>false</hostile>
+      <groupAbility>true</groupAbility>
+      <displayGizmoWhileUndrafted>false</displayGizmoWhileUndrafted>
+      <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>
+      <aiCanUse>true</aiCanUse>
+      <ai_IsOffensive>true</ai_IsOffensive>
+      <targetRequired>false</targetRequired>
+      <statBases>
+        <Ability_Duration>126</Ability_Duration>
+      </statBases>
+      <verbProperties>
+        <verbClass>Verb_CastAbility</verbClass>
+        <drawAimPie>false</drawAimPie>
+        <requireLineOfSight>false</requireLineOfSight>
+        <warmupTime>0.5</warmupTime>
+        <targetable>false</targetable>
+        <targetParams>
+          <canTargetSelf>true</canTargetSelf>
+        </targetParams>
+      </verbProperties>
+      <comps>
+        <li Class="CompProperties_AbilityGiveHediff">
+          <compClass>CompAbilityEffect_GiveHediff</compClass>
+          <hediffDef>BerserkTrance</hediffDef>
+          <onlyApplyToSelf>True</onlyApplyToSelf>
+          <replaceExisting>true</replaceExisting>
+        </li>
+        <li Class = "CompProperties_AbilityGiveMentalState">
+          <compClass>CompAbilityEffect_GiveMentalState</compClass>
+          <stateDef>BerserkTrance</stateDef>
+          <soundMale>BerserkTrance_Resolve_Male</soundMale>
+          <soundFemale>BerserkTrance_Resolve_Female</soundFemale>
+        </li>
+      </comps>
+  </AbilityDef>
+
+  </Defs>    

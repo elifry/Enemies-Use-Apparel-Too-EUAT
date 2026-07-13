@@ -57,7 +57,7 @@
             </value>
         </nomatch>
     </Operation>  
-    <Operation Class="PatchOperationAdd">
+    <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Royalty">
         <xpath>Defs/PawnKindDef[@Name="TradersGuildEliteBase"]/specificApparelRequirements</xpath>
         <value>
             <li>
@@ -83,7 +83,7 @@
             </value>
         </nomatch>
     </Operation>  
-    <Operation Class="PatchOperationAdd">
+    <Operation Class="PatchOperationAdd" MayRequire="Ludeon.RimWorld.Royalty">
         <xpath>Defs/PawnKindDef[@Name="TradersGuildSlasherBase"]/specificApparelRequirements</xpath>
         <value>
             <li>
