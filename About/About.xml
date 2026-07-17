@@ -46,9 +46,10 @@ Hunter Drone Packs
 Turret Packs
 Psychic/shard Shock Lance*
 Psychic/shard Insanity Lance*
-Deadlife Packs*
+Deadlife Packs**
 
 * haven't been added to enemy item generation
+** The deadlife pack will mark all enemies and corpses with the faction of the caster. meaning Shamblers will fight for the caster. I suggest adding it to enemy cultists or canibal tribals with a faction editing mod for flavorful use 
 
 This mod adds the defense pop tag to the listed packs, meaning any enemies that could spawn with those(smokepop belt, loweshield pack, etc...) can spawn with the turret, jump, and hunter pack now.
 
@@ -72,9 +73,9 @@ This mod creates the core framework for the Enemy AI to use Vanilla Apparel. Thi
 3. Creating C# that reads the the jump range from the apparel so item quality can still affect jump range
 4. Adds think trees for Pawns to use this mod's jump ability
 
-This mod won't modify other mod's item behavior on its own.
+This mod will cause other mod's apparel verbs to used with the harmony patch on
 
 
-PS: This mod would also allow for any apparel to have abilities(aka enemy usable) that consume ammo. Want to create a Smokepop Cape for enemies? Or a hellfire helmet for enemies? With this mod that "should" only be xml edits you can reference within this mod, just look up ability defs in the code and modify them and attach them as seen in this mod's xmls.
+PS: This mod would also allow for any apparel to have abilities(aka enemy usable) that consume ammo.PS: This mod would also allow for any apparel to have abilities(aka enemy usable) that consume ammo. Want to create a Smokepop Cape for enemies? Or a hellfire helmet for enemies? With this mod that "should" only be xml edits you can reference within this mod, just look up ability defs in the code and modify them and attach them as seen in this mod's xmls.
 </description>
 </ModMetaData>
