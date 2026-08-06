@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
 
-  <ThingDef Name="EAUT_IdeologyTechHeadiffBase" ParentName="BodyPartBase" Abstract="True">
+  <ThingDef Name="EUAT_IdeologyTechHediffBase" ParentName="BodyPartBase" Abstract="True">
     <techHediffsTags>
       <li>EUAT_ImplantIdeologyAbility</li>
     </techHediffsTags>

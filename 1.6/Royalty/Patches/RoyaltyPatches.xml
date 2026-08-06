@@ -21,7 +21,7 @@
                 <li>EUAT_LaunchFragGrenadeApparel</li>
             </value>
         </li>
-        <!-- Add Launch Incendiary Ability to Pheonix Armor -->
+        <!-- Add Launch Incendiary Ability to Phoenix Armor -->
         <li Class="PatchOperationConditional">
             <xpath>Defs/ThingDef[defName="Apparel_ArmorCataphractPhoenix"]/apparel/abilities</xpath>
             <nomatch Class="PatchOperationAdd">
@@ -56,7 +56,7 @@
            <li>EUAT_OrbitalPowerArmor</li>
         </value>
     </Operation>
-    <!-- Add Spacer Military Tag to Pheonix Armor -->
+    <!-- Add Spacer Military Tag to Phoenix Armor -->
     <Operation Class="PatchOperationConditional">
         <xpath>Defs/ThingDef[defName="Apparel_ArmorCataphractPhoenix"]/apparel/tags</xpath>
         <nomatch Class="PatchOperationAdd">

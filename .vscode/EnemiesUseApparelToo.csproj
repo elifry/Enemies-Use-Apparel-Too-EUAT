@@ -19,8 +19,8 @@
 
  	<ItemGroup>
 	 	<Compile Include="../Source/*" />
-		<PackageReference Include="Krafs.Rimworld.Ref" Version="*" />
+		<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4871" />
 		<!-- *Uncomment for Harmony* -->
-		<PackageReference Include="Lib.Harmony" Version="*" />
+		<PackageReference Include="Lib.Harmony" Version="2.4.2" />
 	</ItemGroup>
 </Project>
