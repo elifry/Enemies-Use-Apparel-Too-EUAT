@@ -1,14 +1,10 @@
 ﻿
-using System.Collections.Generic;
-
 using Verse;
 using Verse.AI;
-
 using RimWorld;
 
 // *Uncomment for Harmony*
- using System.Reflection;
- using HarmonyLib;
+using HarmonyLib;
 
 namespace EnemiesUseApparelToo
 {
@@ -18,9 +14,9 @@ namespace EnemiesUseApparelToo
     {
         static Start()
         {
-            if(EnemiesUseApparelTooModSettings.UseHarmonyPatch)
+            if (EnemiesUseApparelTooModSettings.UseHarmonyPatch)
             {
-                new Harmony("EnemiesUseApparelToo").PatchAll(); 
+                new Harmony("EnemiesUseApparelToo").PatchAll();
             }
 
         }
@@ -31,30 +27,12 @@ namespace EnemiesUseApparelToo
     {
         public static bool Prefix(ref Job __result, JobGiver_AIFightEnemy __instance, Pawn pawn, Thing enemyTarget)
         {
-            if (pawn.apparel != null)
+            if (EUATCombatVerbUtility.TryMakeSmartApparelJob(pawn, enemyTarget, out Job apparelJob))
             {
-                IEnumerable<Verb> list = pawn.apparel.AllApparelVerbs;
-                foreach(Verb verb in list)
-                {
-                    if (verb != null && verb.Available() && verb.verbProps.violent == true)
-                    {
-                        if (verb.CanHitTarget(enemyTarget))
-                        {
-
-                                Job job = JobMaker.MakeJob(JobDefOf.UseVerbOnThing, enemyTarget);
-                                job.verbToUse = verb;
-                                job.maxNumStaticAttacks = 1;
-                                job.expiryInterval = 2000;
-                                job.endIfCantShootTargetFromCurPos = true;
-                                job.endIfCantShootInMelee = true;
-                                __result = job;
-                                return false;
-                        }
-                        
-                    }
-                }
-
+                __result = apparelJob;
+                return false;
             }
+
             return true;
         }
     }
