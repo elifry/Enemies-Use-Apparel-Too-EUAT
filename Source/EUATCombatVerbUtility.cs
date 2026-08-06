@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using HarmonyLib;
@@ -69,73 +68,56 @@ namespace EnemiesUseApparelToo
                 radius > 0f;
         }
 
-        private static bool TryEvaluateApparelVerb(Pawn pawn, Thing enemyTarget, Verb verb, out ApparelVerbEvaluation bestEvaluation)
+        private static bool TryEvaluateApparelVerb(Pawn pawn, Thing enemyTarget, Verb verb, out ApparelVerbEvaluation evaluation)
         {
-            bestEvaluation = ApparelVerbEvaluation.Invalid;
+            evaluation = ApparelVerbEvaluation.Invalid;
 
             if (!TryGetAbility(verb, out Ability ability) || !TryGetExplosionRadius(ability, out float radius))
             {
                 return false;
             }
 
-            foreach (IAttackTarget attackTarget in GetPotentialTargets(pawn, enemyTarget))
+            if (!TryGetVanillaAoeTarget(ability, verb, out LocalTargetInfo castTarget, out Thing affectedTarget))
             {
-                Thing targetThing = attackTarget.Thing;
-                if (targetThing == null || targetThing.Destroyed || targetThing.Map != pawn.Map)
-                {
-                    continue;
-                }
-
-                if (!TryGetCastTarget(ability, verb, targetThing, out LocalTargetInfo castTarget))
-                {
-                    continue;
-                }
-
-                float opportunityScore = GetAoeOpportunityScore(pawn, ability, targetThing.Position, radius);
-                if (opportunityScore < MinimumOpportunityScore)
-                {
-                    continue;
-                }
-
-                float score = GetVanillaShootingTargetScore(attackTarget, pawn, verb, radius) + opportunityScore;
-                if (score > bestEvaluation.Score)
-                {
-                    bestEvaluation = new ApparelVerbEvaluation(ability, verb, castTarget, score);
-                }
+                return false;
             }
 
-            return bestEvaluation.IsValid;
+            float opportunityScore = GetAoeOpportunityScore(pawn, ability, castTarget, radius);
+            if (opportunityScore < MinimumOpportunityScore)
+            {
+                return false;
+            }
+
+            IAttackTarget attackTarget = affectedTarget as IAttackTarget ?? enemyTarget as IAttackTarget;
+            float score = GetVanillaShootingTargetScore(attackTarget, pawn, verb, radius) + opportunityScore;
+            evaluation = new ApparelVerbEvaluation(ability, verb, castTarget, score);
+            return true;
         }
 
-        private static IEnumerable<IAttackTarget> GetPotentialTargets(Pawn pawn, Thing enemyTarget)
+        private static bool TryGetVanillaAoeTarget(Ability ability, Verb verb, out LocalTargetInfo castTarget, out Thing affectedTarget)
         {
-            IAttackTarget currentTarget = enemyTarget as IAttackTarget;
-            if (currentTarget != null)
+            affectedTarget = null;
+            LocalTargetInfo vanillaTarget = ability.AIGetAOETarget();
+            if (!vanillaTarget.IsValid)
             {
-                yield return currentTarget;
+                castTarget = LocalTargetInfo.Invalid;
+                return false;
             }
 
-            foreach (IAttackTarget target in pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn))
+            affectedTarget = vanillaTarget.Thing;
+            if (CanUseTarget(ability, verb, vanillaTarget))
             {
-                if (target == currentTarget || target.ThreatDisabled(pawn))
-                {
-                    continue;
-                }
-
-                yield return target;
-            }
-        }
-
-        private static bool TryGetCastTarget(Ability ability, Verb verb, Thing targetThing, out LocalTargetInfo castTarget)
-        {
-            LocalTargetInfo thingTarget = targetThing;
-            if (CanUseTarget(ability, verb, thingTarget))
-            {
-                castTarget = thingTarget;
+                castTarget = vanillaTarget;
                 return true;
             }
 
-            LocalTargetInfo cellTarget = targetThing.Position;
+            if (vanillaTarget.Thing == null)
+            {
+                castTarget = LocalTargetInfo.Invalid;
+                return false;
+            }
+
+            LocalTargetInfo cellTarget = vanillaTarget.Thing.Position;
             if (CanUseTarget(ability, verb, cellTarget))
             {
                 castTarget = cellTarget;
@@ -154,28 +136,66 @@ namespace EnemiesUseApparelToo
                 verb.ValidateTarget(target, showMessages: false);
         }
 
-        private static float GetAoeOpportunityScore(Pawn pawn, Ability ability, IntVec3 center, float radius)
+        private static float GetAoeOpportunityScore(Pawn pawn, Ability ability, LocalTargetInfo castTarget, float radius)
+        {
+            int hostileTargets = CountVanillaAffectedHostiles(pawn, ability, castTarget);
+            if (hostileTargets == 0)
+            {
+                hostileTargets = CountHostilesInRadius(pawn, ability, castTarget.Cell, radius);
+            }
+
+            int explosives = CountExplosivesInRadius(pawn, castTarget.Cell, radius);
+            int extraHostileTargets = Math.Max(0, hostileTargets - 1);
+            return extraHostileTargets * ExtraHostileTargetScore + explosives * ExplosiveTargetScore;
+        }
+
+        private static int CountVanillaAffectedHostiles(Pawn pawn, Ability ability, LocalTargetInfo castTarget)
         {
             int hostileTargets = 0;
-            int explosives = 0;
-
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(center, pawn.Map, radius, useCenter: true))
+            foreach (LocalTargetInfo affectedTarget in ability.GetAffectedTargets(castTarget))
             {
-                if (thing is Pawn targetPawn && targetPawn.Spawned && !targetPawn.Downed && targetPawn.HostileTo(pawn) &&
-                    IsValidAoeAffectedTarget(ability, targetPawn))
+                if (affectedTarget.Thing is Pawn targetPawn && IsHostileAoePawn(pawn, targetPawn))
                 {
                     hostileTargets++;
-                    continue;
                 }
+            }
 
+            return hostileTargets;
+        }
+
+        private static int CountHostilesInRadius(Pawn pawn, Ability ability, IntVec3 center, float radius)
+        {
+            int hostileTargets = 0;
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(center, pawn.Map, radius, useCenter: true))
+            {
+                if (thing is Pawn targetPawn && IsHostileAoePawn(pawn, targetPawn) && IsValidAoeAffectedTarget(ability, targetPawn))
+                {
+                    hostileTargets++;
+                }
+            }
+
+            return hostileTargets;
+        }
+
+        private static int CountExplosivesInRadius(Pawn pawn, IntVec3 center, float radius)
+        {
+            int explosives = 0;
+            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(center, pawn.Map, radius, useCenter: true))
+            {
                 if (IsExplosiveOpportunity(pawn, thing))
                 {
                     explosives++;
                 }
             }
 
-            int extraHostileTargets = Math.Max(0, hostileTargets - 1);
-            return extraHostileTargets * ExtraHostileTargetScore + explosives * ExplosiveTargetScore;
+            return explosives;
+        }
+
+        private static bool IsHostileAoePawn(Pawn pawn, Pawn targetPawn)
+        {
+            return targetPawn.Spawned &&
+                !targetPawn.Downed &&
+                targetPawn.HostileTo(pawn);
         }
 
         private static bool IsValidAoeAffectedTarget(Ability ability, Thing target)
@@ -212,7 +232,7 @@ namespace EnemiesUseApparelToo
 
         private static float GetVanillaShootingTargetScore(IAttackTarget target, Pawn pawn, Verb verb, float explosionRadius)
         {
-            if (GetShootingTargetScoreMethod == null)
+            if (target == null || GetShootingTargetScoreMethod == null)
             {
                 return 0f;
             }

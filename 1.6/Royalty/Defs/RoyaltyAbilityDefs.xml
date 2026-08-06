@@ -6,6 +6,7 @@
         <description>Launch a grenade. Can be reloaded using steel.</description>
         <iconPath>UI/Commands/LaunchFragGrenade</iconPath>
         <aiCanUse>true</aiCanUse>
+        <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
         <showWhenDrafted>false</showWhenDrafted>
         <!--<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
         <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>-->
@@ -36,6 +37,7 @@
     <iconPath>UI/Commands/LaunchIncendiaryShell</iconPath>
     <aiCanUse>true</aiCanUse>
     <ai_IsIncendiary>true</ai_IsIncendiary>
+    <ai_SearchAOEForTargets>true</ai_SearchAOEForTargets>
     <showWhenDrafted>false</showWhenDrafted>
     <!--<displayGizmoWhileUndrafted>true</displayGizmoWhileUndrafted>
     <disableGizmoWhileUndrafted>false</disableGizmoWhileUndrafted>-->
