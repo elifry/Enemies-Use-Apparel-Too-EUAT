@@ -28,7 +28,8 @@ namespace EnemiesUseApparelToo
                 return false;
             }
 
-            ApparelVerbEvaluation bestEvaluation = ApparelVerbEvaluation.Invalid;
+            ApparelVerbEvaluation bestSmartEvaluation = ApparelVerbEvaluation.Invalid;
+            ApparelVerbEvaluation originalEvaluation = ApparelVerbEvaluation.Invalid;
             foreach (Verb verb in pawn.apparel.AllApparelVerbs)
             {
                 if (!CanConsiderApparelVerb(verb))
@@ -36,13 +37,19 @@ namespace EnemiesUseApparelToo
                     continue;
                 }
 
-                if (TryEvaluateApparelVerb(pawn, enemyTarget, verb, out ApparelVerbEvaluation evaluation) &&
-                    evaluation.Score > bestEvaluation.Score)
+                if (!originalEvaluation.IsValid && TryEvaluateOriginalApparelVerb(verb, enemyTarget, out ApparelVerbEvaluation fallbackEvaluation))
                 {
-                    bestEvaluation = evaluation;
+                    originalEvaluation = fallbackEvaluation;
+                }
+
+                if (TryEvaluateAoeApparelVerb(pawn, enemyTarget, verb, out ApparelVerbEvaluation smartEvaluation) &&
+                    smartEvaluation.Score > bestSmartEvaluation.Score)
+                {
+                    bestSmartEvaluation = smartEvaluation;
                 }
             }
 
+            ApparelVerbEvaluation bestEvaluation = bestSmartEvaluation.IsValid ? bestSmartEvaluation : originalEvaluation;
             if (!bestEvaluation.IsValid)
             {
                 return false;
@@ -56,12 +63,23 @@ namespace EnemiesUseApparelToo
         {
             return verb != null &&
                 verb.Available() &&
-                verb.verbProps?.violent == true &&
-                TryGetExplosionRadius(verb, out float radius) &&
-                radius > 0f;
+                verb.verbProps?.violent == true;
         }
 
-        private static bool TryEvaluateApparelVerb(Pawn pawn, Thing enemyTarget, Verb verb, out ApparelVerbEvaluation bestEvaluation)
+        private static bool TryEvaluateOriginalApparelVerb(Verb verb, Thing enemyTarget, out ApparelVerbEvaluation evaluation)
+        {
+            evaluation = ApparelVerbEvaluation.Invalid;
+
+            if (!verb.CanHitTarget(enemyTarget))
+            {
+                return false;
+            }
+
+            evaluation = new ApparelVerbEvaluation(verb, enemyTarget, 0f);
+            return true;
+        }
+
+        private static bool TryEvaluateAoeApparelVerb(Pawn pawn, Thing enemyTarget, Verb verb, out ApparelVerbEvaluation bestEvaluation)
         {
             bestEvaluation = ApparelVerbEvaluation.Invalid;
 
