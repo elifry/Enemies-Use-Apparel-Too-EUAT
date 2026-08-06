@@ -144,6 +144,7 @@
         <verbClass>Verb_CastAbility</verbClass>
         <range>23.9</range>
         <warmupTime>1.5</warmupTime>
+        <defaultProjectile>Grenade_Deadlife</defaultProjectile>
         <forcedMissRadius>0.1</forcedMissRadius>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams>

@@ -14,6 +14,7 @@
           <verbClass>Verb_CastAbility</verbClass>
           <range>12.9</range>
           <warmupTime>1.5</warmupTime>
+          <defaultProjectile>Proj_GrenadeFrag</defaultProjectile>
           <soundCast>Shot_IncendiaryLauncher</soundCast>
           <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
           <targetParams>
@@ -45,6 +46,7 @@
       <verbClass>Verb_CastAbility</verbClass>
       <range>14.9</range>
       <warmupTime>1.5</warmupTime>
+      <defaultProjectile>Proj_GrenadePhoenixFire</defaultProjectile>
       <forcedMissRadius>1.9</forcedMissRadius>
       <soundCast>Shot_IncendiaryLauncher</soundCast>
       <soundCastTail>GunTail_Medium</soundCastTail>
