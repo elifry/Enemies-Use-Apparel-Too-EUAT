@@ -13,6 +13,7 @@ namespace EnemiesUseApparelToo
         private const float ExtraHostileTargetScore = 20f;
         private const float ExplosiveTargetScore = 30f;
         private const float MinimumOpportunityScore = 20f;
+        private const float MinimumTargetSwitchOpportunityScore = 60f;
 
         private static readonly MethodInfo GetShootingTargetScoreMethod = AccessTools.Method(
             typeof(AttackTargetFinder),
@@ -91,7 +92,7 @@ namespace EnemiesUseApparelToo
             IAttackTarget currentTarget = enemyTarget as IAttackTarget;
             if (currentTarget != null)
             {
-                TryEvaluateTarget(pawn, verb, currentTarget, radius, ref bestEvaluation);
+                TryEvaluateTarget(pawn, verb, currentTarget, radius, MinimumOpportunityScore, ref bestEvaluation);
             }
 
             foreach (IAttackTarget attackTarget in pawn.Map.attackTargetsCache.GetPotentialTargetsFor(pawn))
@@ -101,7 +102,7 @@ namespace EnemiesUseApparelToo
                     continue;
                 }
 
-                TryEvaluateTarget(pawn, verb, attackTarget, radius, ref bestEvaluation);
+                TryEvaluateTarget(pawn, verb, attackTarget, radius, MinimumTargetSwitchOpportunityScore, ref bestEvaluation);
             }
 
             return bestEvaluation.IsValid;
@@ -112,6 +113,7 @@ namespace EnemiesUseApparelToo
             Verb verb,
             IAttackTarget attackTarget,
             float radius,
+            float minimumOpportunityScore,
             ref ApparelVerbEvaluation bestEvaluation)
         {
             Thing targetThing = attackTarget.Thing;
@@ -126,12 +128,12 @@ namespace EnemiesUseApparelToo
             }
 
             float opportunityScore = GetAoeOpportunityScore(pawn, castTarget.Cell, radius);
-            if (opportunityScore < MinimumOpportunityScore)
+            if (opportunityScore < minimumOpportunityScore)
             {
                 return;
             }
 
-            float score = GetVanillaShootingTargetScore(attackTarget, pawn, verb, radius) + opportunityScore;
+            float score = GetVanillaShootingTargetScore(attackTarget, pawn, verb) + opportunityScore;
             if (score > bestEvaluation.Score)
             {
                 bestEvaluation = new ApparelVerbEvaluation(verb, castTarget, score);
@@ -223,17 +225,11 @@ namespace EnemiesUseApparelToo
             return thing.def?.comps?.Any(comp => comp is CompProperties_Explosive) == true;
         }
 
-        private static float GetVanillaShootingTargetScore(IAttackTarget target, Pawn pawn, Verb verb, float explosionRadius)
+        private static float GetVanillaShootingTargetScore(IAttackTarget target, Pawn pawn, Verb verb)
         {
             if (target == null || GetShootingTargetScoreMethod == null)
             {
                 return 0f;
-            }
-
-            float originalAvoidFriendlyFireRadius = verb.verbProps.ai_AvoidFriendlyFireRadius;
-            if (originalAvoidFriendlyFireRadius <= 0f)
-            {
-                verb.verbProps.ai_AvoidFriendlyFireRadius = explosionRadius;
             }
 
             try
@@ -243,10 +239,6 @@ namespace EnemiesUseApparelToo
             catch
             {
                 return 0f;
-            }
-            finally
-            {
-                verb.verbProps.ai_AvoidFriendlyFireRadius = originalAvoidFriendlyFireRadius;
             }
         }
 

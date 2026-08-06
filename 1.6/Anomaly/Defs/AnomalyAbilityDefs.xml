@@ -148,6 +148,7 @@
         <range>23.9</range>
         <warmupTime>1.5</warmupTime>
         <defaultProjectile>Grenade_Deadlife</defaultProjectile>
+        <ai_AvoidFriendlyFireRadius>0.1</ai_AvoidFriendlyFireRadius>
         <forcedMissRadius>0.1</forcedMissRadius>
         <soundCast>ThrowGrenade</soundCast>
         <targetParams>

@@ -14,6 +14,7 @@
           <range>12.9</range>
           <warmupTime>1.5</warmupTime>
           <defaultProjectile>Proj_GrenadeFrag</defaultProjectile>
+          <ai_AvoidFriendlyFireRadius>1.9</ai_AvoidFriendlyFireRadius>
           <soundCast>Shot_IncendiaryLauncher</soundCast>
           <ai_IsBuildingDestroyer>true</ai_IsBuildingDestroyer>
           <targetParams>
@@ -45,6 +46,7 @@
       <range>14.9</range>
       <warmupTime>1.5</warmupTime>
       <defaultProjectile>Proj_GrenadePhoenixFire</defaultProjectile>
+      <ai_AvoidFriendlyFireRadius>2.9</ai_AvoidFriendlyFireRadius>
       <forcedMissRadius>1.9</forcedMissRadius>
       <soundCast>Shot_IncendiaryLauncher</soundCast>
       <soundCastTail>GunTail_Medium</soundCastTail>
